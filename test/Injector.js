@@ -99,7 +99,7 @@ describe('Injector should work as designed.', function() {
 
       it('should work as expected', function() {
         injector.factory('Factory', function() {
-          return {name: 'Factory'}
+          return {name: 'Factory', special: Math.random()}
         })
       })
 
@@ -123,12 +123,19 @@ describe('Injector should work as designed.', function() {
         }).should.throw();
       })
 
+      it('should return objects', function(){
+        var A = injector.get('Factory')
+        var B = injector.get('Factory')
+        A.name.should.equal('Factory')
+        B.name.should.equal('Factory')
+        A.special.should.not.equal(B.special)
+      });
     });
 
     context('should add a service.', function() {
 
       it('should work as expected', function() {
-        injector.service('Service', {name: 'Service'})
+        injector.service('Service', {name: 'Service', special: Math.random()})
       })
 
       it('should throw when name is missing or of wrong type', function() {
@@ -157,6 +164,13 @@ describe('Injector should work as designed.', function() {
         }).should.throw();
       })
 
+      it('should return whatever was registered', function(){
+        var A = injector.get('Service');
+        var B = injector.get('Service');
+        A.name.should.equal("Service");
+        B.name.should.equal("Service");
+        A.special.should.equal(B.special)
+      })
     })
   });
   describe('Using the module', function() {
