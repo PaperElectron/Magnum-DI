@@ -1,16 +1,14 @@
 /**
  * @file Injector
  * @author Jim Bulkowski <jim.b@paperelectron.com>
- * @project Pomegranate
+ * @project magnum-di
  * @license MIT {@link http://opensource.org/licenses/MIT}
  */
 
 
 var should = require('should');
-var path = require('path')
-var expressMock = require('./mocks/express_mock').setup();
 
-var injector = require('../lib/DI');
+var injector = require('../index');
 
 describe('Injector should work as designed.', function() {
 

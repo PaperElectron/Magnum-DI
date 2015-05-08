@@ -1,31 +1,37 @@
-# Pomegranate
+# Magnum DI
 
-### An unassuming toolset for quickly building web applications.n
+### A super simple Key,Value Dependency Injection framework for NodeJS
 
 ```shell
-npm install --save pomegranate
+npm install --save magnum-di
 ```
 
 ```javascript
-var pom = require('pomegranate')
-var options = {
-address: '0.0.0.0',
-port: 8080
-};
+//Load it up./
+var injector = require('magnum-di')
 
-pom
-.init(options)
-.start()
-.on('log', console.log)
-.on('error', function(err){
-    console.log(err.stack);
+//Register some dependencies.
+injector.service('MyService', {name: 'Bob', sayName: function(){console.log(this.name)}})
+
+//inject them into your function
+injector.inject(function(MyService){
+    MyService.sayName() // -> Bob
 })
 ```
 
 # API
 
-{{#class name="Pomegranate"~}}{{>docs}}{{/class}}
+{{#module name="injector"}}{{>docs}}{{/module}}
 
-{{#module name="Configuration"}}{{>docs}}{{/module}}
 
-{{#class name="Logger"}}{{>docs}}{{/class}}
+#Contributing
+
+## Check out, add, document, test.
+
+Run tests with `npm test`.
+Regenerate this Readme with `npm run readme`
+
+
+##licence
+
+[MIT](LICENSE)
