@@ -184,10 +184,16 @@ describe('Injector should work as designed.', function() {
         })
       })
 
-      it('should return null for unkown values.', function() {
+      it('should return null for unknown values.', function() {
         injector.inject(function(Foo) {
           should(Foo).equal(null)
         })
+      })
+
+      it('should run a function with the correct context', function(){
+        injector.inject(function(){
+          this.name.should.equal('thisArg')
+        }, {name: 'thisArg'})
       })
     });
   })

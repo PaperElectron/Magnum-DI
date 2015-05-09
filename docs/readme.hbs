@@ -1,6 +1,6 @@
 # Magnum DI
 
-### A super simple Key,Value Dependency Injection framework for NodeJS
+## A super simple Key,Value Dependency Injection framework for NodeJS
 
 ```shell
 npm install --save magnum-di
@@ -17,6 +17,51 @@ injector.service('MyService', {name: 'Bob', sayName: function(){console.log(this
 injector.inject(function(MyService){
     MyService.sayName() // -> Bob
 })
+```
+# Why Dependency Injection?
+
+* Managing complex applications with many files. Maintaining module dependencies in one location reduces errors
+and makes an application easier to reason about.
+* Procedurally loading files with dependencies becomes much easier.
+* Ease of testing in isolation, mocking module dependencies becomes trivial. No need to use a module to fiddle with the internals of require to get a mocked object into your module. With DI just register a different module with the correct methods
+and you are done mocking.
+
+## Examples
+
+### Express route definitions.
+
+Here we register a dependency in our main application file, and use the injector to call the function
+returned by the require call.
+
+``` javascript
+
+//userRoutes.js
+module.exports = function(Router, User) {
+  //Router and User here will be injected.
+
+  Router.get('/', function(req, res, next){
+    User.userDetails('Bob', function(err, data){
+      res.json({user: data})
+    })
+  })
+  return {path: '/user', router: Router}
+}
+
+
+//app.js
+var injector = require('magnum-di');
+var express = require('express');
+var Database = require('./Database);
+var User = require('./UserModel);
+var app = express()
+
+//Register some dependencies.
+injector.factory('Router', express.Router)
+injector.service('User', User)
+
+var userRoute = injector.inject(require('./user_routes'))
+
+app.use(userRoute.path, userRoute.router)
 ```
 
 # API
