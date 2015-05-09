@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --ui tdd --reporter spec",
-    "readme": "jsdoc2md -t docs/readme.hbs lib/**/*.js > Readme.md"
+    "readme": "jsdoc2md -t docs/readme.hbs lib/**/*.js > Readme.md",
+    "example-test": "NODE_ENV=test mocha --ui tdd --reporter spec examples/UserModel_testing/UserModel_test.js",
+    "example-server": "node examples/ExpressRoutes/app.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
     "lodash": "^3.8.0"
   },
   "devDependencies": {
+    "express": "^4.12.3",
     "jsdoc-to-markdown": "^1.1.1",
     "mocha": "^2.2.4",
     "should": "^6.0.1"

@@ -33,35 +33,92 @@ and you are done mocking.
 Here we register a dependency in our main application file, and use the injector to call the function
 returned by the require call.
 
+Run this with `npm run example-server`
+
 ``` javascript
 
 //userRoutes.js
-module.exports = function(Router, User) {
-  //Router and User here will be injected.
 
+module.exports = function(Router, User) {
+
+  //Here Router and User will be injected.
   Router.get('/', function(req, res, next){
     User.userDetails('Bob', function(err, data){
       res.json({user: data})
     })
-  })
+  });
+
   return {path: '/user', router: Router}
-}
+};
 
 
 //app.js
+
 var injector = require('magnum-di');
 var express = require('express');
-var Database = require('./Database);
-var User = require('./UserModel);
+var Database = require('.Database');
 var app = express()
+var http = require('http');
 
 //Register some dependencies.
-injector.factory('Router', express.Router)
-injector.service('User', User)
+injector.factory('Router', express.Router);
+injector.service('Database', Database);
 
-var userRoute = injector.inject(require('./user_routes'))
+//Here we are letting the injector provide the database to our UserModel
+//This will make it simple to mock in our unit tests.
+var User = injector.inject(require('./UserModel'));
+injector.service('User', User);
 
-app.use(userRoute.path, userRoute.router)
+var userRoute = injector.inject(require('./UserRoutes'));
+
+app.use(userRoute.path, userRoute.router);
+
+http.createServer(app).listen(8080);
+```
+
+### Mocking database for testing
+
+Following our above example, we use magnum-di to mock out or Database object for testing.
+
+Run this with `npm run example-test`
+
+``` javascript
+
+var injector = require('magnum-di');
+var should = require('should');
+
+//Our mock database object
+injector.service('Database', {
+  User: {
+    users: {George: {name: 'George', age: 30}, Mike: {name: 'Mike', age: 20}},
+    find: function(username, cb) {
+     var user = (this.users[username]) ? this.users[username] : null
+     cb(null, user);
+    }
+  }
+});
+
+//We now have a user model that is using our mock database.
+var User = injector.inject(require('./UserModel'));
+
+describe('Model being tested with a mock Database object', function() {
+
+  it('should not have real data', function(done) {
+    User.userDetails('Bob', function(err, data){
+      should(data).be.null
+      done()
+    })
+  });
+
+  it('should have mock data', function(done) {
+    User.userDetails('George', function(err, data){
+      data.age.should.equal(30)
+      done()
+    })
+  });
+
+});
+
 ```
 
 # API
