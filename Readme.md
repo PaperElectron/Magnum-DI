@@ -2,6 +2,9 @@
 
 ## A super simple Key,Value Dependency Injection framework for NodeJS
 
+[![NPM Version][npm-image]][npm-url]
+[![Linux][travis-image]][travis-url]
+
 ```shell
 npm install --save magnum-di
 ```
@@ -56,7 +59,7 @@ module.exports = function(Router, User) {
 
 var injector = require('magnum-di');
 var express = require('express');
-var Database = require('.Database');
+var Database = require('./Database');
 var app = express()
 var http = require('http');
 
@@ -204,7 +207,7 @@ Removes the specified dependency.
 
 
 
-#Contributing
+# Contributing
 
 ## Check out, add, document, test.
 
@@ -212,6 +215,11 @@ Run tests with `npm test`.
 Regenerate this Readme with `npm run readme`
 
 
-##licence
+## licence
 
 [MIT](LICENSE)
+
+[npm-image]: https://img.shields.io/npm/v/magnum-di.svg
+[npm-url]: https://www.npmjs.com/package/magnum-di
+[travis-image]: https://img.shields.io/travis/PaperElectron/Magnum-DI/master.svg
+[travis-url]: https://travis-ci.org/PaperElectron/Magnum-DI
