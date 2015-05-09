@@ -31,7 +31,7 @@ and you are done mocking.
 ### Express route definitions.
 
 Here we register a dependency in our main application file, and use the injector to call the function
-returned by the require call.
+returned by the require('./UserModel) call.
 
 Run this with `npm run example-server`
 
@@ -78,7 +78,7 @@ http.createServer(app).listen(8080);
 
 ### Mocking database for testing
 
-Following our above example, we use magnum-di to mock out or Database object for testing.
+Following our above example, we use magnum-di to mock out our Database object for testing.
 
 Run this with `npm run example-test`
 
