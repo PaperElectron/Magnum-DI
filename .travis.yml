@@ -6,6 +6,6 @@ node_js:
   - "2.0"
   - "3.0"
   - "4.0"
-  - "iojs"
+  - "node"
 sudo: false
 script: npm test
