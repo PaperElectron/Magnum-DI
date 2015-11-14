@@ -138,6 +138,8 @@ Magnum DI framework.
   * [.inject(fn, thisArg)](#module_injector.inject) ⇒ <code>\*</code>
   * [.get(name)](#module_injector.get) ⇒ <code>\*</code>
   * [.unregister(name)](#module_injector.unregister)
+  * [.replace(name, replacement)](#module_injector.replace) ⇒ <code>Object</code>
+  * [.merge(name, merge)](#module_injector.merge)
 
 <a name="module_injector.factory"></a>
 ### injector.factory(name, fn)
@@ -200,9 +202,32 @@ Removes the specified dependency.
 
 **Kind**: static method of <code>[injector](#module_injector)</code>  
 
-| Param | Type |
-| --- | --- |
-| name | <code>string</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | Registered dependency to remove. |
+
+<a name="module_injector.replace"></a>
+### injector.replace(name, replacement) ⇒ <code>Object</code>
+Modifies a registered service object.
+
+**Kind**: static method of <code>[injector](#module_injector)</code>  
+**Returns**: <code>Object</code> - Replaced dependency  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | Dependency object to modify. |
+| replacement | <code>Object</code> | Object to replace current registered object. |
+
+<a name="module_injector.merge"></a>
+### injector.merge(name, merge)
+Merges supplied object into the object registered for <name>
+
+**Kind**: static method of <code>[injector](#module_injector)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | Dependency object to modify |
+| merge | <code>Object</code> | Object to merge with esisting dependency |
 
 
 
