@@ -37,7 +37,7 @@ describe('Injector should work as designed.', function() {
           injector.service('validname', {})
         }).should.not.throw();
       });
-    })
+    });
 
     context('should enforce valid function names', function() {
       it('should throw on invalid function name', function() {
@@ -49,21 +49,21 @@ describe('Injector should work as designed.', function() {
           injector.service('noThrow1', {})
         }).should.throw();
       });
-    })
+    });
 
     context('should add an instance constructor.', function() {
       it('should work as expected', function() {
         injector.instance('Instance', function() {
-          this.name = 'Instance'
+          this.name = 'Instance';
           this.setup = function(name) {
-            this.name = name
+            this.name = name;
             return this
-          }
+          };
           this.get = function() {
             return this.name
           }
         })
-      })
+      });
 
       it('should throw when name is missing or of wrong type', function() {
         (function() {
@@ -73,7 +73,7 @@ describe('Injector should work as designed.', function() {
         (function() {
           injector.instance({})
         }).should.throw();
-      })
+      });
 
       it('should throw when item arg is missing or of wrong type', function() {
         (function() {
@@ -83,7 +83,7 @@ describe('Injector should work as designed.', function() {
         (function() {
           injector.instance('Test', {})
         }).should.throw();
-      })
+      });
 
       it('should return new instances', function() {
         var A = injector.get('Instance').setup('bob');
@@ -93,7 +93,7 @@ describe('Injector should work as designed.', function() {
         (A.constructor).should.equal(B.constructor)
       })
 
-    })
+    });
 
     context('should add a factory.', function() {
 
@@ -101,7 +101,7 @@ describe('Injector should work as designed.', function() {
         injector.factory('Factory', function() {
           return {name: 'Factory', special: Math.random()}
         })
-      })
+      });
 
       it('should throw when name is missing or of wrong type', function() {
         (function() {
@@ -111,7 +111,7 @@ describe('Injector should work as designed.', function() {
         (function() {
           injector.factory({})
         }).should.throw();
-      })
+      });
 
       it('should throw when item arg is missing or of wrong type', function() {
         (function() {
@@ -121,13 +121,13 @@ describe('Injector should work as designed.', function() {
         (function() {
           injector.factory('Test', {})
         }).should.throw();
-      })
+      });
 
       it('should return objects', function(){
-        var A = injector.get('Factory')
-        var B = injector.get('Factory')
-        A.name.should.equal('Factory')
-        B.name.should.equal('Factory')
+        var A = injector.get('Factory');
+        var B = injector.get('Factory');
+        A.name.should.equal('Factory');
+        B.name.should.equal('Factory');
         A.special.should.not.equal(B.special)
       });
     });
@@ -136,7 +136,7 @@ describe('Injector should work as designed.', function() {
 
       it('should work as expected', function() {
         injector.service('Service', {name: 'Service', special: Math.random()})
-      })
+      });
 
       it('should throw when name is missing or of wrong type', function() {
         (function() {
@@ -151,7 +151,7 @@ describe('Injector should work as designed.', function() {
           injector.service(function() {
           })
         }).should.throw();
-      })
+      });
 
       it('should throw when item arg is missing or of wrong type', function() {
         (function() {
@@ -162,7 +162,7 @@ describe('Injector should work as designed.', function() {
           injector.service('Test', function() {
           })
         }).should.throw();
-      })
+      });
 
       it('should return whatever was registered', function(){
         var A = injector.get('Service');
@@ -173,22 +173,23 @@ describe('Injector should work as designed.', function() {
       })
     })
   });
+
   describe('Using the module', function() {
     context('should run a function', function() {
 
       it('should have the correct argument values', function() {
         injector.inject(function(Service, Factory, Instance) {
-          Service.name.should.equal('Service')
-          Factory.name.should.equal('Factory')
+          Service.name.should.equal('Service');
+          Factory.name.should.equal('Factory');
           Instance.name.should.equal('Instance')
         })
-      })
+      });
 
       it('should return null for unknown values.', function() {
         injector.inject(function(Foo) {
           should(Foo).equal(null)
         })
-      })
+      });
 
       it('should run a function with the correct context', function(){
         injector.inject(function(){
