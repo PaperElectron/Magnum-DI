@@ -136,6 +136,7 @@ describe('Injector should work as designed.', function() {
 
       it('should work as expected', function() {
         injector.service('Service', {name: 'Service', special: Math.random()})
+        injector.service('Constructor', function(){return {name: 'Constructor'}})
       });
 
       it('should throw when name is missing or of wrong type', function() {
@@ -159,16 +160,21 @@ describe('Injector should work as designed.', function() {
         }).should.throw();
 
         (function() {
-          injector.service('Test', function() {
-          })
+          injector.service(10, {})
         }).should.throw();
+        //(function() {
+        //  injector.service('Test', function() {
+        //  })
+        //}).should.throw();
       });
 
       it('should return whatever was registered', function(){
         var A = injector.get('Service');
         var B = injector.get('Service');
+        var C = injector.get('Constructor')();
         A.name.should.equal("Service");
         B.name.should.equal("Service");
+        C.name.should.equal("Constructor")
         A.special.should.equal(B.special)
       })
     })
