@@ -9,6 +9,12 @@
     "example-test": "NODE_ENV=test mocha --ui tdd --reporter spec examples/UserModel_testing/UserModel_test.js",
     "example-server": "node examples/ExpressRoutes/app.js"
   },
+  "files": [
+    "index.js",
+    "lib/",
+    "Readme.md",
+    "LICENCE"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/PaperElectron/Magnum-DI.git"
