@@ -220,14 +220,14 @@ Modifies a registered service object.
 
 <a name="module_injector.merge"></a>
 ### injector.merge(name, merge)
-Merges supplied object into the object registered for <name>
+Merges supplied object into the object registered for <name>, if <name> doesn't exist it will be created.
 
 **Kind**: static method of <code>[injector](#module_injector)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>String</code> | Dependency object to modify |
-| merge | <code>Object</code> | Object to merge with esisting dependency |
+| merge | <code>Object</code> | Object to merge with existing dependency |
 
 
 
