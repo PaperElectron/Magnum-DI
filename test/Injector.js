@@ -25,7 +25,7 @@ injector.merge('Merge', {a: 'A'});
 injector.merge('Merge', {b: 'B'});
 
 tap.test('Injecting Dependencies', function(t) {
-  t.plan(7);
+  t.plan(8);
   injector.inject(function(Service, Factory, Instance, Merge) {
     t.equal(Service.name, 'Service', 'Service Object has correct data.');
     t.equal(Factory.name, 'Factory', 'Factory Object has correct data.');
@@ -41,5 +41,9 @@ tap.test('Injecting Dependencies', function(t) {
   injector.inject(function() {
     t.equal(this.name, 'thisArg', 'Injected function should execute with the correct context.')
   }, {name: 'thisArg'})
+
+  injector.inject(function(Injector) {
+    t.ok(Injector, 'Gets a reference to itself');
+  })
 });
 

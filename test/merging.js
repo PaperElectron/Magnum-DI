@@ -10,7 +10,7 @@ var tap = require('tap')
 var injector = require('../index')();
 
 tap.test('Merging existing objects', function(t) {
-  t.plan(8);
+  t.plan(9);
   (function() {
     var obj = {}
     injector.service('merge', obj);
@@ -38,6 +38,11 @@ tap.test('Merging existing objects', function(t) {
     t.equal(merge.location, 'Atlanta', 'Has correct location');
   })();
 
+  t.throws(function() {
+    injector.merge('merge', function() {
+    })
+  }, 'Throws when attempting to merge a function')
+
 })
 
 tap.test('Merging a transient object', function(t) {
@@ -53,9 +58,18 @@ tap.test('Merging a transient object', function(t) {
   (function() {
     injector.merge('transient', {age: 26});
     var transient = injector.get('transient');
-    t.type(transient,Object);
-    t.equal(transient.name,'bob');
-    t.equal(transient.age,26)
+    t.type(transient, Object);
+    t.equal(transient.name, 'bob');
+    t.equal(transient.age, 26)
   })();
 
+
 });
+
+tap.test('Attempting to merge an injectable function fails', function(t) {
+  t.plan(1)
+  injector.factory('MergeFactory', function(){});
+  t.throws(function() {
+    injector.merge('MergeFactory', {name: 'broke'})
+  }, 'Throws when merging into a factory')
+})
