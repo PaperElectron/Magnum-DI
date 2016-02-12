@@ -37,9 +37,6 @@
   },
   "devDependencies": {
     "express": "^4.12.3",
-    "istanbul": "^0.3.14",
-    "jsdoc-to-markdown": "^1.1.1",
-    "mocha": "^2.2.4",
-    "should": "^7.1.1"
+    "jsdoc-to-markdown": "^1.1.1"
   }
 }
