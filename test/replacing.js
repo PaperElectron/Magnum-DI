@@ -5,79 +5,69 @@
  * @license MIT {@link http://opensource.org/licenses/MIT}
  */
 
-var should = require('should');
+var tap = require('tap');
 
-var injector = require('../index');
+var injector = require('../index')();
 
-describe('Replacing contents of a Dependency', function(){
+tap.test('Set an object.', function(t) {
+  t.plan(3)
+  injector.service('modify', {name: "modify"});
+  var toModify = injector.get('modify');
 
-  context('Can set an object.', function(){
-    injector.service('modify', {name: "modify"});
-    var toModify = injector.get('modify');
+  t.equal(toModify.name, 'modify', 'Correct name');
 
-    it('Should set the correct new object', function() {
-      toModify.name.should.equal('modify')
-    });
-
-    it('Should be possible to modify an object after registering.', function() {
-
-      toModify = injector.replace('modify', {name: 'modified', other: 'defined'});
-      toModify.name.should.equal('modified');
-      toModify.other.should.equal('defined');
-    });
-  });
-
-  context('Returning the correct object after modification', function(){
-    it('Should return the modified object going forward.', function() {
-      var modified = injector.get('modify');
-      modified.name.should.equal('modified');
-      modified.other.should.equal('defined');
-    });
-  });
-
-  context('Rejecting improper parameters', function(){
-    injector.service('improper', {name: 'improper'});
-    injector.factory('improperFactory', function(){});
-    injector.instance('improperInstance', function(){});
-    var improper = injector.get('improper');
-    it('Should throw on attempt to assign a function when modifying', function() {
-      (function() {
-        injector.replace('improper', function(){})
-      }).should.throw();
-    });
-
-    it('Should throw on attempt to modify a factory with an object', function() {
-      (function() {
-        injector.replace('improperFactory', {name: 'improperFactory'})
-      }).should.throw();
-    });
-
-    it('Should throw on attempt to modify an instance with an object', function() {
-      (function() {
-        injector.replace('improperInstance', {name: 'improperInstance'})
-      }).should.throw();
-    });
-  });
-
-  context('Injecting functions before and after modification', function(){
-    var obj = {name: 'before'};
-    injector.service('Before', obj);
-    var injectFn = function(Before){return Before};
-
-    it('Should have the correct values after being run by injector', function() {
-      var firstRun = injector.inject(injectFn);
-      firstRun.name.should.equal('before')
-    });
-
-    it('Should modify the value', function() {
-      injector.replace('Before', {name: 'after'});
-      var modified = injector.get('Before');
-      modified.name.should.equal('after')
-    });
-
-    it('Should have the correct values after being run by the injector, after modification', function() {
-      var secondRun = injector.inject(injectFn);
-      secondRun.name.should.equal('after')
-    });
-  })
+  toModify = injector.replace('modify', {name: 'modified', other: 'defined'});
+  t.equal(toModify.name, 'modified', 'Replaced object has correct name');
+  t.equal(toModify.other, 'defined', 'Replaced object has correct properties');
 });
+
+tap.test('Returning the correct object after modification', function(t) {
+  t.plan(2)
+  var modified = injector.get('modify');
+  t.equal(modified.name, 'modified');
+  t.equal(modified.other, 'defined');
+
+});
+
+tap.test('Rejecting improper parameters', function(t) {
+  t.plan(3);
+  injector.service('improper', {name: 'improper'});
+  injector.factory('improperFactory', function() {
+  });
+  injector.instance('improperInstance', function() {
+  });
+  var improper = injector.get('improper');
+
+  t.throws(function() {
+    injector.replace('improper', function() {
+    })
+  }, 'Throws on bad argument type on replacement');
+
+  t.throws(function() {
+    injector.replace('improperFactory', {name: 'improperFactory'})
+  }, 'Throws on attempt to assign an object to a factory on replacement')
+
+  t.throws(function() {
+    injector.replace('improperInstance', {name: 'improperInstance'})
+  }, 'Throws on attempt to assign an object to an instance on replacement')
+});
+
+tap.test('Injecting functions before and after modification', function(t) {
+  t.plan(3)
+  var obj = {name: 'before'};
+  injector.service('Before', obj);
+  var injectFn = function(Before) {
+    return Before
+  };
+
+  var firstRun = injector.inject(injectFn);
+  t.equal(firstRun.name, 'before')
+
+  injector.replace('Before', {name: 'after'});
+  var modified = injector.get('Before');
+  t.equal(modified.name, 'after');
+
+  var secondRun = injector.inject(injectFn);
+  t.equal(secondRun.name, 'after');
+
+})

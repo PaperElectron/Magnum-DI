@@ -5,56 +5,57 @@
  * @license MIT {@link http://opensource.org/licenses/MIT}
  */
 
-var should = require('should');
+var tap = require('tap')
 
-var injector = require('../index');
+var injector = require('../index')();
 
-describe('Merging contents of a Dependency', function(){
-  context('Merging existing objects', function() {
-    injector.service('merge', {});
+tap.test('Merging existing objects', function(t) {
+  t.plan(8);
+  (function() {
+    var obj = {}
+    injector.service('merge', obj);
+    var merge = injector.get('merge');
+    t.type(merge, Object);
+    t.equal(merge, obj);
+  })();
 
-    it('Should be a blank object', function() {
-      var merge = injector.get('merge');
-      //console.log(merge);
-      merge.should.be.an.Object;
-      merge.should.be.empty()
-    });
+  (function() {
+    var toMerge = {name: 'merge'};
+    injector.merge('merge', toMerge);
+    var merge = injector.get('merge');
+    t.ok(merge.name, 'Has name property.');
+    t.equal(merge.name, 'merge', 'name property is correct');
+  })();
 
-    it('Should merge an object', function() {
-      var toMerge = {name: 'merge'};
-      injector.merge('merge', toMerge);
-      var merge = injector.get('merge');
-      merge.should.have.property('name');
-      merge.name.should.equal('merge')
-    });
+  (function() {
+    var toMerge = {location: 'Atlanta'};
+    injector.merge('merge', toMerge);
+    var merge = injector.get('merge');
 
-    it('Should merge a 2nd object', function() {
-      var toMerge = {location: 'Atlanta'};
-      injector.merge('merge', toMerge);
-      var merge = injector.get('merge');
-      merge.should.have.property('name');
-      merge.should.have.property('location');
-      merge.name.should.equal('merge');
-      merge.location.should.equal('Atlanta')
-    });
-  })
+    t.ok(merge.name, 'Still has name property.');
+    t.ok(merge.location, 'Has location property.');
+    t.equal(merge.name, 'merge', 'Has correct name');
+    t.equal(merge.location, 'Atlanta', 'Has correct location');
+  })();
 
-  context('Merging a transient object', function(){
+})
+
+tap.test('Merging a transient object', function(t) {
+  t.plan(6);
+  (function() {
     injector.merge('transient', {name: 'bob'})
-    it('Should be an object', function() {
-      var transient = injector.get('transient');
-      transient.should.be.an.Object
-      transient.should.have.property('name')
-      transient.name.should.equal('bob')
-    });
+    var transient = injector.get('transient');
+    t.type(transient, Object)
+    t.ok(transient.name, 'Has name property');
+    t.equal(transient.name, 'bob', 'Name property correct');
+  })();
 
-    it('Should merge a 2nd object', function() {
-      injector.merge('transient', {age: 26});
-      var transient = injector.get('transient');
-      transient.should.be.an.Object;
-      transient.name.should.equal('bob')
-      transient.age.should.equal(26)
+  (function() {
+    injector.merge('transient', {age: 26});
+    var transient = injector.get('transient');
+    t.type(transient,Object);
+    t.equal(transient.name,'bob');
+    t.equal(transient.age,26)
+  })();
 
-    })
-  })
 });
