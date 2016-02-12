@@ -38,3 +38,17 @@ tap.test('Factories.', function(t) {
   t.equal(B.name, 'Factory', 'Also returns the correct object');
   t.notEqual(A.special, B.special, 'Returned distinct objects')
 });
+
+tap.test('Creating factories that accept injected arguments', function(t){
+  t.plan(2)
+  injector.service('ForFactory', {factoryArg: 'hello'})
+  injector.factory('Parameterized', function(ForFactory){
+    return ForFactory
+  })
+  t.equal(injector.get('Parameterized').factoryArg, 'hello', 'Factory injects available arguments.')
+
+  injector.inject(function(Parameterized){
+    t.equal(Parameterized.factoryArg, 'hello', 'Factory functions passed through injector, called with injected args.')
+  })
+
+});
