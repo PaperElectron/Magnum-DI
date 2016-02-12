@@ -4,7 +4,7 @@
   "description": "A super simple Key,Value Dependency Injection framework for NodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --ui tdd --reporter spec",
+    "test": "NODE_ENV=test tap -R spec --cov test/**/*.js",
     "readme": "jsdoc2md -t docs/readme.hbs lib/**/*.js > Readme.md",
     "example-test": "NODE_ENV=test mocha --ui tdd --reporter spec examples/UserModel_testing/UserModel_test.js",
     "example-server": "node examples/ExpressRoutes/app.js"
@@ -32,7 +32,8 @@
   "homepage": "https://github.com/PaperElectron/Magnum-DI",
   "dependencies": {
     "debug": "^2.2.0",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "tap": "^5.4.3"
   },
   "devDependencies": {
     "express": "^4.12.3",

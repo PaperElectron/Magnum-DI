@@ -10,4 +10,4 @@
  * @module index
  */
 
-module.exports = require('./lib/magnum-di');
+module.exports = require('./lib/MagnumDI');
