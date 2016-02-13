@@ -57,7 +57,7 @@ module.exports = function(Router, User) {
 
 //app.js
 
-var injector = require('magnum-di');
+var injector = require('magnum-di')();
 var express = require('express');
 var Database = require('./Database');
 var app = express()
