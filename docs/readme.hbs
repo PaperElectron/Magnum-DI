@@ -2,7 +2,7 @@
 
 ## A super simple Key,Value Dependency Injection framework for NodeJS
 
-[![NPM Version - Seeing this? Shilds.io is broken, again.][npm-image]][npm-url]
+[![NPM Version - Seeing this? Shields.io is broken, again.][npm-image]][npm-url]
 [![Linux][travis-image]][travis-url]
 [![Code Coverage][coveralls-image]][coveralls-url]
 ```shell
