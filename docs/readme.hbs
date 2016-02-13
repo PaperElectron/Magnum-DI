@@ -4,14 +4,14 @@
 
 [![NPM Version][npm-image]][npm-url]
 [![Linux][travis-image]][travis-url]
-
+[![Code Coverage][coveralls-image]][coveralls-url]
 ```shell
 npm install --save magnum-di
 ```
 
 ```javascript
 //Load it up./
-var injector = require('magnum-di')
+var injector = require('magnum-di')()
 
 //Register some dependencies.
 injector.service('MyService', {name: 'Bob', sayName: function(){console.log(this.name)}})
@@ -126,7 +126,7 @@ describe('Model being tested with a mock Database object', function() {
 
 # API
 
-{{#module name="injector"}}{{>docs}}{{/module}}
+{{#class name="MagnumDI"}}{{>docs}}{{/class}}
 
 
 # Contributing
@@ -145,3 +145,5 @@ Regenerate this Readme with `npm run readme`
 [npm-url]: https://www.npmjs.com/package/magnum-di
 [travis-image]: https://img.shields.io/travis/PaperElectron/Magnum-DI/master.svg
 [travis-url]: https://travis-ci.org/PaperElectron/Magnum-DI
+[coveralls-image]: https://coveralls.io/repos/github/PaperElectron/Magnum-DI/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/PaperElectron/Magnum-DI

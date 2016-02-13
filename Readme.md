@@ -4,14 +4,14 @@
 
 [![NPM Version][npm-image]][npm-url]
 [![Linux][travis-image]][travis-url]
-
+[![Code Coverage][coveralls-image]][coveralls-url]
 ```shell
 npm install --save magnum-di
 ```
 
 ```javascript
 //Load it up./
-var injector = require('magnum-di')
+var injector = require('magnum-di')()
 
 //Register some dependencies.
 injector.service('MyService', {name: 'Bob', sayName: function(){console.log(this.name)}})
@@ -126,91 +126,89 @@ describe('Model being tested with a mock Database object', function() {
 
 # API
 
-<a name="module_injector"></a>
-## injector
-Magnum DI framework.
+<a name="MagnumDI"></a>
+## MagnumDI
+**Kind**: global class  
 
+* [MagnumDI](#MagnumDI)
+  * [new MagnumDI()](#new_MagnumDI_new)
+  * [.service(name, item)](#MagnumDI#service) ⇒ <code>\*</code>
+  * [.instance(name, fn)](#MagnumDI#instance) ⇒ <code>function</code>
+  * [.factory(name, fn)](#MagnumDI#factory) ⇒ <code>function</code>
+  * [.merge(name, merge)](#MagnumDI#merge) ⇒ <code>\*</code>
+  * [.get(name)](#MagnumDI#get) ⇒ <code>\*</code> &#124; <code>null</code>
+  * [.replace(name, replacement)](#MagnumDI#replace) ⇒ <code>Object</code>
+  * [.unregister(name)](#MagnumDI#unregister) ⇒ <code>boolean</code>
+  * [.inject(fn, thisArg)](#MagnumDI#inject) ⇒ <code>\*</code>
 
-* [injector](#module_injector)
-  * [.factory(name, fn)](#module_injector.factory)
-  * [.instance(name, fn)](#module_injector.instance)
-  * [.service(name, item)](#module_injector.service)
-  * [.inject(fn, thisArg)](#module_injector.inject) ⇒ <code>\*</code>
-  * [.get(name)](#module_injector.get) ⇒ <code>\*</code>
-  * [.unregister(name)](#module_injector.unregister)
-  * [.replace(name, replacement)](#module_injector.replace) ⇒ <code>Object</code>
-  * [.merge(name, merge)](#module_injector.merge)
+<a name="new_MagnumDI_new"></a>
+### new MagnumDI()
+Provides an instance of the Magnum DI injector.
 
-<a name="module_injector.factory"></a>
-### injector.factory(name, fn)
-When injected, calls the passed function. Returns the result of that call.
+<a name="MagnumDI#service"></a>
+### magnumDI.service(name, item) ⇒ <code>\*</code>
+Registers an object, string, number or function.
 
-**Kind**: static method of <code>[injector](#module_injector)</code>  
+**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Returns**: <code>\*</code> - Returns provided dependency  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> | Name to be used in the injected function |
-| fn | <code>function</code> | Function to be called by injector. |
+| item | <code>object</code> &#124; <code>array</code> &#124; <code>number</code> &#124; <code>string</code> &#124; <code>function</code> | Item to be injected. |
 
-<a name="module_injector.instance"></a>
-### injector.instance(name, fn)
+<a name="MagnumDI#instance"></a>
+### magnumDI.instance(name, fn) ⇒ <code>function</code>
 When injected, calls as a constructor with new.
 
-**Kind**: static method of <code>[injector](#module_injector)</code>  
+**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Returns**: <code>function</code> - Returns provided function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> | Name to be used in the injected function. |
 | fn | <code>function</code> | Function to be called with new. |
 
-<a name="module_injector.service"></a>
-### injector.service(name, item)
-Registers an object, string, number. Anything but a function.
+<a name="MagnumDI#factory"></a>
+### magnumDI.factory(name, fn) ⇒ <code>function</code>
+When injected, calls the passed function. Returns the result of that call.
 
-**Kind**: static method of <code>[injector](#module_injector)</code>  
+**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Returns**: <code>function</code> - Retuens provided function.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> | Name to be used in the injected function |
-| item | <code>object</code> &#124; <code>array</code> &#124; <code>number</code> &#124; <code>string</code> | Item to be injected. |
+| fn | <code>function</code> | Function to be called by injector. |
 
-<a name="module_injector.inject"></a>
-### injector.inject(fn, thisArg) ⇒ <code>\*</code>
-Runs the given function with args injected and with an optional context object.
+<a name="MagnumDI#merge"></a>
+### magnumDI.merge(name, merge) ⇒ <code>\*</code>
+Merges supplied object into the object registered for <name>, if <name> doesn't exist it will be created.
 
-**Kind**: static method of <code>[injector](#module_injector)</code>  
+**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Returns**: <code>\*</code> - Returns provided dependency  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| fn | <code>function</code> | function to inject args into and run. |
-| thisArg | <code>object</code> | Calling context. |
+| name | <code>String</code> | Dependency object to modify |
+| merge | <code>Object</code> | Object to merge with existing dependency |
 
-<a name="module_injector.get"></a>
-### injector.get(name) ⇒ <code>\*</code>
+<a name="MagnumDI#get"></a>
+### magnumDI.get(name) ⇒ <code>\*</code> &#124; <code>null</code>
 Returns the specified dependency.
 
-**Kind**: static method of <code>[injector](#module_injector)</code>  
-**Returns**: <code>\*</code> - The asked for dependency item.  
+**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Returns**: <code>\*</code> &#124; <code>null</code> - The named dependency item, or null.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> | Dependency to retrieve. |
 
-<a name="module_injector.unregister"></a>
-### injector.unregister(name)
-Removes the specified dependency.
-
-**Kind**: static method of <code>[injector](#module_injector)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>string</code> | Registered dependency to remove. |
-
-<a name="module_injector.replace"></a>
-### injector.replace(name, replacement) ⇒ <code>Object</code>
+<a name="MagnumDI#replace"></a>
+### magnumDI.replace(name, replacement) ⇒ <code>Object</code>
 Modifies a registered service object.
 
-**Kind**: static method of <code>[injector](#module_injector)</code>  
+**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
 **Returns**: <code>Object</code> - Replaced dependency  
 
 | Param | Type | Description |
@@ -218,16 +216,28 @@ Modifies a registered service object.
 | name | <code>String</code> | Dependency object to modify. |
 | replacement | <code>Object</code> | Object to replace current registered object. |
 
-<a name="module_injector.merge"></a>
-### injector.merge(name, merge)
-Merges supplied object into the object registered for <name>, if <name> doesn't exist it will be created.
+<a name="MagnumDI#unregister"></a>
+### magnumDI.unregister(name) ⇒ <code>boolean</code>
+Removes the specified dependency.
 
-**Kind**: static method of <code>[injector](#module_injector)</code>  
+**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Returns**: <code>boolean</code> - The result of the operation.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>String</code> | Dependency object to modify |
-| merge | <code>Object</code> | Object to merge with existing dependency |
+| name | <code>string</code> | Registered dependency to remove. |
+
+<a name="MagnumDI#inject"></a>
+### magnumDI.inject(fn, thisArg) ⇒ <code>\*</code>
+Runs the given function with args injected and with an optional context object.
+
+**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Returns**: <code>\*</code> - Returns the result of the called function.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>function</code> | function to inject args into and run. |
+| thisArg | <code>object</code> | Calling context. |
 
 
 
@@ -248,3 +258,5 @@ Regenerate this Readme with `npm run readme`
 [npm-url]: https://www.npmjs.com/package/magnum-di
 [travis-image]: https://img.shields.io/travis/PaperElectron/Magnum-DI/master.svg
 [travis-url]: https://travis-ci.org/PaperElectron/Magnum-DI
+[coveralls-image]: https://coveralls.io/repos/github/PaperElectron/Magnum-DI/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/PaperElectron/Magnum-DI
