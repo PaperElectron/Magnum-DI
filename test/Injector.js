@@ -25,7 +25,7 @@ injector.merge('Merge', {a: 'A'});
 injector.merge('Merge', {b: 'B'});
 
 tap.test('Injecting Dependencies', function(t) {
-  t.plan(8);
+  t.plan(11);
   injector.inject(function(Service, Factory, Instance, Merge) {
     t.equal(Service.name, 'Service', 'Service Object has correct data.');
     t.equal(Factory.name, 'Factory', 'Factory Object has correct data.');
@@ -45,5 +45,14 @@ tap.test('Injecting Dependencies', function(t) {
   injector.inject(function(Injector) {
     t.ok(Injector, 'Gets a reference to itself');
   })
+
+  t.equal(injector.inject('Service').name, 'Service',
+    'Calling inject with a string argument should return the stored dependency'
+  )
+
+  t.equal(injector.inject('notThere'), null,
+    'Calling inject with a string argument, that is not registered should return null.'
+  )
+  t.equal(injector.inject(10), null, 'Passing anything other than a string or function should return null')
 });
 
