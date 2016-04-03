@@ -139,7 +139,7 @@ describe('Model being tested with a mock Database object', function() {
   * [.get(name)](#MagnumDI#get) ⇒ <code>\*</code> &#124; <code>null</code>
   * [.replace(name, replacement)](#MagnumDI#replace) ⇒ <code>Object</code>
   * [.unregister(name)](#MagnumDI#unregister) ⇒ <code>boolean</code>
-  * [.inject(fn, thisArg)](#MagnumDI#inject) ⇒ <code>\*</code>
+  * [.inject(fnOrstr, thisArg)](#MagnumDI#inject) ⇒ <code>\*</code>
 
 <a name="new_MagnumDI_new"></a>
 ### new MagnumDI()
@@ -228,7 +228,7 @@ Removes the specified dependency.
 | name | <code>string</code> | Registered dependency to remove. |
 
 <a name="MagnumDI#inject"></a>
-### magnumDI.inject(fn, thisArg) ⇒ <code>\*</code>
+### magnumDI.inject(fnOrstr, thisArg) ⇒ <code>\*</code>
 Runs the given function with args injected and with an optional context object.
 
 **Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
@@ -236,7 +236,7 @@ Runs the given function with args injected and with an optional context object.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| fn | <code>function</code> | function to inject args into and run. |
+| fnOrstr | <code>function</code> &#124; <code>string</code> | function - inject args and run, string - Return the named dependency. |
 | thisArg | <code>object</code> | Calling context. |
 
 
