@@ -34,6 +34,7 @@ tap.test('Factories.', function(t) {
 
   var A = injector.get('Factory');
   var B = injector.get('Factory');
+
   t.equal(A.name, 'Factory', 'Returns correct object');
   t.equal(B.name, 'Factory', 'Also returns the correct object');
   t.notEqual(A.special, B.special, 'Returned distinct objects')
@@ -51,4 +52,13 @@ tap.test('Creating factories that accept injected arguments', function(t){
     t.equal(Parameterized.factoryArg, 'hello', 'Factory functions passed through injector, called with injected args.')
   })
 
+});
+
+tap.test('Getting factory directly via string arg to injector.inject', function(t) {
+  t.plan(1)
+  injector.factory('GetFactory', function(){
+    return {name: 'GetFactory'}
+  })
+  var direct = injector.inject('GetFactory')
+  t.equal(direct.name, 'GetFactory', 'When passed a string inject executes factory functions')
 });

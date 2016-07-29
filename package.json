@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test tap -R spec --cov test/**/*.js",
+    "test:file": "NODE_ENV=test tap -R spec --cov",
     "readme": "jsdoc2md -t docs/readme.hbs lib/**/*.js > Readme.md",
     "example-test": "NODE_ENV=test mocha --ui tdd --reporter spec examples/UserModel_testing/UserModel_test.js",
     "example-server": "node examples/ExpressRoutes/app.js"
