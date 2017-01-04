@@ -30,7 +30,9 @@ tap.test('Adds services.', function(t) {
 
   t.throws(function() {
     injector.service('This-also-bad', {})
-  }, 'Identifier with hyphens throws')
+  },
+    new TypeError('This-also-bad: Dependency name must be a valid javascript variable, no spaces, tabs, or dashes.'),
+    'Identifier with hyphens throws')
 
   t.doesNotThrow(function() {
     injector.service('validname', {})
@@ -51,7 +53,9 @@ tap.test('Adds services.', function(t) {
 
   t.throws(function() {
     injector.service('Test')
-  }, 'Adding service throws with no dependency');
+  },
+    new TypeError("Test: Missing second parameter of DI.service()"),
+    'Adding service throws with no dependency');
 
   t.throws(function() {
     injector.service(10, {})
