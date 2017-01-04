@@ -1,6 +1,6 @@
 {
   "name": "magnum-di",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "A super simple Key,Value Dependency Injection framework for NodeJS",
   "main": "index.js",
   "scripts": {
