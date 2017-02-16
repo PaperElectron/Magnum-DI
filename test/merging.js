@@ -10,7 +10,7 @@ var tap = require('tap')
 var injector = require('../index')();
 
 tap.test('Merging existing objects', function(t) {
-  t.plan(9);
+  t.plan(13);
   (function() {
     var obj = {}
     injector.service('merge', obj);
@@ -36,6 +36,17 @@ tap.test('Merging existing objects', function(t) {
     t.ok(merge.location, 'Has location property.');
     t.equal(merge.name, 'merge', 'Has correct name');
     t.equal(merge.location, 'Atlanta', 'Has correct location');
+  })();
+
+  (function() {
+    var toMerge = {location: 'Cleveland'};
+    injector.merge('merge', toMerge);
+    var merge = injector.get('merge');
+
+    t.ok(merge.name, 'Still has name property.');
+    t.ok(merge.location, 'Has location property.');
+    t.equal(merge.name, 'merge', 'Has correct name');
+    t.equal(merge.location, 'Cleveland', 'Overwrites property');
   })();
 
   t.throws(function() {
