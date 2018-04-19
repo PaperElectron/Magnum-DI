@@ -127,41 +127,54 @@ describe('Model being tested with a mock Database object', function() {
 # API
 
 <a name="MagnumDI"></a>
+
 ## MagnumDI
 **Kind**: global class  
 
 * [MagnumDI](#MagnumDI)
-  * [new MagnumDI()](#new_MagnumDI_new)
-  * [.service(name, item)](#MagnumDI#service) ⇒ <code>\*</code>
-  * [.instance(name, fn)](#MagnumDI#instance) ⇒ <code>function</code>
-  * [.factory(name, fn)](#MagnumDI#factory) ⇒ <code>function</code>
-  * [.merge(name, merge)](#MagnumDI#merge) ⇒ <code>\*</code>
-  * [.get(name)](#MagnumDI#get) ⇒ <code>\*</code> &#124; <code>null</code>
-  * [.replace(name, replacement)](#MagnumDI#replace) ⇒ <code>Object</code>
-  * [.unregister(name)](#MagnumDI#unregister) ⇒ <code>boolean</code>
-  * [.inject(fnOrstr, thisArg)](#MagnumDI#inject) ⇒ <code>\*</code>
+    * [new MagnumDI()](#new_MagnumDI_new)
+    * [.createChild()](#MagnumDI+createChild) ⇒ [<code>MagnumDI</code>](#MagnumDI)
+    * [.service(name, item)](#MagnumDI+service) ⇒ <code>\*</code>
+    * [.instance(name, fn)](#MagnumDI+instance) ⇒ <code>function</code>
+    * [.factory(name, fn)](#MagnumDI+factory) ⇒ <code>function</code>
+    * [.merge(name, merge)](#MagnumDI+merge) ⇒ <code>\*</code>
+    * [.get(name)](#MagnumDI+get) ⇒ <code>\*</code> \| <code>null</code>
+    * [.replace(name, replacement)](#MagnumDI+replace) ⇒ <code>Object</code>
+    * [.unregister(name)](#MagnumDI+unregister) ⇒ <code>boolean</code>
+    * [.inject(fnOrstr, thisArg)](#MagnumDI+inject) ⇒ <code>\*</code>
 
 <a name="new_MagnumDI_new"></a>
+
 ### new MagnumDI()
 Provides an instance of the Magnum DI injector.
 
-<a name="MagnumDI#service"></a>
+<a name="MagnumDI+createChild"></a>
+
+### magnumDI.createChild() ⇒ [<code>MagnumDI</code>](#MagnumDI)
+Creates a Child instance of the current injector.
+Calls to .get or .inject will first search this injector, if a parameter is found it will return it
+if not it will continue up the tree until a value is found or the topmost instance is reached.
+
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
+<a name="MagnumDI+service"></a>
+
 ### magnumDI.service(name, item) ⇒ <code>\*</code>
 Registers an object, string, number or function.
 
-**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
 **Returns**: <code>\*</code> - Returns provided dependency  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> | Name to be used in the injected function |
-| item | <code>object</code> &#124; <code>array</code> &#124; <code>number</code> &#124; <code>string</code> &#124; <code>function</code> | Item to be injected. |
+| item | <code>object</code> \| <code>array</code> \| <code>number</code> \| <code>string</code> \| <code>function</code> | Item to be injected. |
 
-<a name="MagnumDI#instance"></a>
+<a name="MagnumDI+instance"></a>
+
 ### magnumDI.instance(name, fn) ⇒ <code>function</code>
 When injected, calls as a constructor with new.
 
-**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
 **Returns**: <code>function</code> - Returns provided function  
 
 | Param | Type | Description |
@@ -169,11 +182,12 @@ When injected, calls as a constructor with new.
 | name | <code>string</code> | Name to be used in the injected function. |
 | fn | <code>function</code> | Function to be called with new. |
 
-<a name="MagnumDI#factory"></a>
+<a name="MagnumDI+factory"></a>
+
 ### magnumDI.factory(name, fn) ⇒ <code>function</code>
 When injected, calls the passed function. Returns the result of that call.
 
-**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
 **Returns**: <code>function</code> - Retuens provided function.  
 
 | Param | Type | Description |
@@ -181,11 +195,12 @@ When injected, calls the passed function. Returns the result of that call.
 | name | <code>string</code> | Name to be used in the injected function |
 | fn | <code>function</code> | Function to be called by injector. |
 
-<a name="MagnumDI#merge"></a>
+<a name="MagnumDI+merge"></a>
+
 ### magnumDI.merge(name, merge) ⇒ <code>\*</code>
 Merges supplied object into the object registered for <name>, if <name> doesn't exist it will be created.
 
-**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
 **Returns**: <code>\*</code> - Returns provided dependency  
 
 | Param | Type | Description |
@@ -193,22 +208,24 @@ Merges supplied object into the object registered for <name>, if <name> doesn't 
 | name | <code>String</code> | Dependency object to modify |
 | merge | <code>Object</code> | Object to merge with existing dependency |
 
-<a name="MagnumDI#get"></a>
-### magnumDI.get(name) ⇒ <code>\*</code> &#124; <code>null</code>
+<a name="MagnumDI+get"></a>
+
+### magnumDI.get(name) ⇒ <code>\*</code> \| <code>null</code>
 Returns the specified dependency.
 
-**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
-**Returns**: <code>\*</code> &#124; <code>null</code> - The named dependency item, or null.  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
+**Returns**: <code>\*</code> \| <code>null</code> - The named dependency item, or null.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> | Dependency to retrieve. |
 
-<a name="MagnumDI#replace"></a>
+<a name="MagnumDI+replace"></a>
+
 ### magnumDI.replace(name, replacement) ⇒ <code>Object</code>
 Modifies a registered service object.
 
-**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
 **Returns**: <code>Object</code> - Replaced dependency  
 
 | Param | Type | Description |
@@ -216,27 +233,29 @@ Modifies a registered service object.
 | name | <code>String</code> | Dependency object to modify. |
 | replacement | <code>Object</code> | Object to replace current registered object. |
 
-<a name="MagnumDI#unregister"></a>
+<a name="MagnumDI+unregister"></a>
+
 ### magnumDI.unregister(name) ⇒ <code>boolean</code>
 Removes the specified dependency.
 
-**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
 **Returns**: <code>boolean</code> - The result of the operation.  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> | Registered dependency to remove. |
 
-<a name="MagnumDI#inject"></a>
+<a name="MagnumDI+inject"></a>
+
 ### magnumDI.inject(fnOrstr, thisArg) ⇒ <code>\*</code>
 Runs the given function with args injected and with an optional context object.
 
-**Kind**: instance method of <code>[MagnumDI](#MagnumDI)</code>  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
 **Returns**: <code>\*</code> - Returns the result of the called function.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| fnOrstr | <code>function</code> &#124; <code>string</code> | function - inject args and run, string - Return the named dependency. |
+| fnOrstr | <code>function</code> \| <code>string</code> | function - inject args and run, string - Return the named dependency. |
 | thisArg | <code>object</code> | Calling context. |
 
 
