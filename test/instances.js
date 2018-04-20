@@ -8,7 +8,8 @@
 'use strict';
 var tap = require('tap')
 
-var injector = require('../index')();
+let MagnumDI = require('../index')
+let injector = new MagnumDI()
 
 tap.test('Instance constructors.', function(t) {
   t.plan(7)

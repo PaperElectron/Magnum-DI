@@ -8,7 +8,9 @@
 'use strict';
 var tap = require('tap')
 
-var injector = require('../index')();
+let MagnumDI = require('../index')
+let injector = new MagnumDI()
+
 tap.test('Adds services.', function(t) {
   t.plan(14)
   injector.service('Service', {name: 'Service', special: Math.random()})

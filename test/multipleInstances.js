@@ -8,12 +8,13 @@
 'use strict';
 var tap = require('tap');
 
-var Injector = require('../index');
+let MagnumDI = require('../index')
 
-var Inj1 = Injector();
-var Inj2 = new Injector()
 
-tap.test('Multiple Injector Instances', function(t){
+var Inj1 = new MagnumDI();
+var Inj2 = new MagnumDI()
+
+tap.test('Multiple MagnumDI Instances', function(t){
   t.plan(2)
   var sharedObj = {name: 'bob'};
   Inj1.service('bob', sharedObj);

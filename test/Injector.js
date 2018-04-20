@@ -8,7 +8,8 @@
 'use strict';
 var tap = require('tap');
 
-var injector = require('../index')();
+let MagnumDI = require('../index')
+let injector = new MagnumDI()
 
 injector.service('Service', {name: 'Service'});
 

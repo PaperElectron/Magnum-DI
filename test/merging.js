@@ -7,7 +7,8 @@
 
 var tap = require('tap')
 
-var injector = require('../index')();
+let MagnumDI = require('../index')
+let injector = new MagnumDI()
 
 tap.test('Merging existing objects', function(t) {
   t.plan(13);
