@@ -4,11 +4,10 @@
  * @project magnum-di
  * @license MIT {@link http://opensource.org/licenses/MIT}
  */
-
-var tap = require('tap')
-
-let MagnumDI = require('../index')
-let injector = new MagnumDI()
+'use strict';
+const tap = require('tap')
+const MagnumDI = require('../index')
+const injector = new MagnumDI()
 
 tap.test('Merging existing objects', function(t) {
   t.plan(13);
