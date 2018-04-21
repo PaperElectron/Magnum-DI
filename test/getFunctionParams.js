@@ -15,7 +15,6 @@ tap.test('Returns arguments for most functions it receives', (t) => {
   t.test('Anonymous function expressions', (t) => {
     let anon = function(A,B,C,D,E){}
     let args = getFunctionParams(anon)
-    console.log(args)
     t.equal(args.length, 5, 'Returns an array with the correct number of items')
     t.equal(args[0], 'A', 'Argument A is in correct position.')
     t.equal(args[1], 'B', 'Argument B is in correct position.')
