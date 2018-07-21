@@ -34,10 +34,10 @@
   "dependencies": {
     "debug": "^2.2.0",
     "esprima": "^4.0.0",
-    "lodash": "^4.17.5",
-    "tap": "^11.1.4"
+    "lodash": "^4.17.5"
   },
   "devDependencies": {
+    "tap": "^11.1.4",
     "express": "^4.12.3",
     "jsdoc-to-markdown": "^4.0.1"
   }
