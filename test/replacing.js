@@ -7,7 +7,7 @@
 
 'use strict';
 const tap = require('tap');
-const MagnumDI = require('../index')
+const MagnumDI = require('../dist/MagnumDI')
 const injector = new MagnumDI()
 
 tap.test('Set an object.', function(t) {

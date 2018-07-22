@@ -8,7 +8,7 @@
 'use strict';
 
 const tap = require('tap')
-const getFunctionParams = require('../lib/getFunctionParams')
+const getFunctionParams = require('../dist/getFunctionParams').getFunctionParams
 
 tap.test('Returns arguments for most functions it receives', (t) => {
 

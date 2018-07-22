@@ -8,7 +8,7 @@
 'use strict';
 var tap = require('tap');
 
-let MagnumDI = require('../index')
+let MagnumDI = require('../dist/MagnumDI')
 
 
 var Inj1 = new MagnumDI();

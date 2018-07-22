@@ -1,38 +1,26 @@
-/**
- * @file DI
- * @author Jim Bulkowski <jim.b@paperelectron.com>
- * @project magnum-di
- * @license MIT {@link http://opensource.org/licenses/MIT}
- */
+import * as _ from 'lodash'
+import * as Debug from 'debug'
+import dependencies from "./Dependencies"
+import {getFunctionParams} from "./getFunctionParams"
 
-'use strict';
+const debug = Debug('magnum-di')
 
-const _ = require('lodash');
-const debug = require('debug')('magnum-di');
-const Dependencies = require('./Dependencies');
-const getFunctionParams = require('./getFunctionParams')
+class MagnumDI{
+  private dependencies
+  readonly parent
 
-
-/**
- * Provides an instance of the Magnum DI injector.
- * @class MagnumDI
- * @returns {MagnumDI}
- */
-class MagnumDI {
-  constructor(parent) {
-    // if(!(this instanceof MagnumDI)) return new MagnumDI(parent);
-    this.dependencies = new Dependencies();
-    this.service('Injector', this)
+  constructor(parent: MagnumDI){
+    this.dependencies = dependencies()
     this.parent = parent || null
+    this.service('Injector', this)
   }
-
   /**
    * Creates a Child instance of the current injector.
    * Calls to .get or .inject will first search this injector, if a parameter is found it will return it
    * if not it will continue up the tree until a value is found or the topmost instance is reached.
    * @return {MagnumDI}
    */
-  createChild() {
+  createChild() : MagnumDI {
     return new MagnumDI(this)
   }
 
@@ -40,7 +28,7 @@ class MagnumDI {
    * Returns all keys registered for this injector.
    * @return {array}
    */
-  getKeys(){
+  getKeys() : string[] {
     return _.keys(this.dependencies.getAll())
   }
   /**
@@ -50,7 +38,7 @@ class MagnumDI {
    * @returns {*} Returns provided dependency
    */
 
-  service(name, item) {
+  service<T>(name: string, item: T) {
     if(!_.isString(name)){
       throw new TypeError("First parameter of DI.service() Must be a string.")
     }
@@ -61,6 +49,9 @@ class MagnumDI {
 
     /**
      * Wrap a service function in an outer function.
+     * This allows the original function to be returned when requested.
+     * If this was not wrapped, it would simply execute the function and return
+     * whatever it returned.
      */
     if(_.isFunction(item)){
       return this.dependencies.set(name, function(){
@@ -76,7 +67,7 @@ class MagnumDI {
    * @param {function} fn Function to be called with new.
    * @returns {function} Returns provided function
    */
-  instance(name, fn) {
+  instance(name: string, fn: FunctionConstructor) {
     if(!_.isString(name)){
       throw new TypeError("First parameter of DI.instance() Must be a string.")
     }
@@ -94,9 +85,9 @@ class MagnumDI {
    * When injected, calls the passed function. Returns the result of that call.
    * @param {string} name Name to be used in the injected function
    * @param {function} fn Function to be called by injector.
-   * @returns {function} Retuens provided function.
+   * @returns {function} Returns provided function.
    */
-  factory(name, fn) {
+  factory(name: string, fn: Function) {
     var self = this;
     if(!_.isString(name)){
       throw new TypeError("First parameter of DI.factory() Must be a string.")
@@ -137,7 +128,7 @@ class MagnumDI {
    * @param {string} name Dependency to retrieve.
    * @returns {*|null} The named dependency item, or null.
    */
-  get(name) {
+  get(name: string) {
 
     var dependency = this.dependencies.get(name)
     if(_.isFunction(dependency)){
@@ -160,7 +151,7 @@ class MagnumDI {
    * @param {Object} replacement Object to replace current registered object.
    * @returns {Object} Replaced dependency
    */
-  replace(name, replacement) {
+  replace(name: string, replacement) {
     var toModify = this.dependencies.get(name);
     if(_.isFunction(toModify)){
       throw new Error(name + ': Magnum DI cannot replace an injectable function')
@@ -176,7 +167,7 @@ class MagnumDI {
    * @param {string} name Registered dependency to remove.
    * @returns {boolean} The result of the operation.
    */
-  unregister(name) {
+  unregister(name: string) {
     return this.dependencies.remove(name)
   };
 
@@ -186,7 +177,7 @@ class MagnumDI {
    * @param {object} thisArg Calling context.
    * @returns {*} Returns the result of the called function.
    */
-  inject(fnOrstr, thisArg) {
+  inject(fnOrstr, thisArg?) {
     if(_.isString(fnOrstr)){
       return this.get(fnOrstr)
     }
@@ -214,7 +205,7 @@ class MagnumDI {
    * @param name
    */
   validateName(name) {
-    var noSpacesOrDashes = /\s+|-+/g
+    let noSpacesOrDashes = /\s+|-+/g
     if(noSpacesOrDashes.test(name)){
       throw new TypeError(name +': Dependency name must be a valid javascript variable, no spaces, tabs, or dashes.')
     }
@@ -224,8 +215,4 @@ class MagnumDI {
   };
 }
 
-
-
-
-
-module.exports = MagnumDI
+export = MagnumDI

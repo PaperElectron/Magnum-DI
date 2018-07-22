@@ -7,7 +7,7 @@
 
 'use strict';
 var tap = require('tap');
-let MagnumDI = require('../index')
+let MagnumDI = require('../dist/MagnumDI')
 let injector = new MagnumDI()
 
 tap.test('Deleting dependencies', function(t){

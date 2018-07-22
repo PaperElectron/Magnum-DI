@@ -7,7 +7,7 @@
 
 'use strict';
 let tap = require('tap');
-let MagnumDI = require('../index')
+let MagnumDI = require('../dist/MagnumDI')
 let injector = new MagnumDI()
 
 tap.test('Creating Child injectors', function(t){
