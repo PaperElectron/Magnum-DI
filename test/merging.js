@@ -6,7 +6,7 @@
  */
 'use strict';
 const tap = require('tap')
-const MagnumDI = require('../dist/MagnumDI')
+const MagnumDI = require('../dist/MagnumDI').MagnumDI
 const injector = new MagnumDI()
 
 tap.test('Merging existing objects', function(t) {

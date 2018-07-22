@@ -8,7 +8,7 @@
 'use strict';
 var tap = require('tap');
 
-let MagnumDI = require('../dist/MagnumDI')
+let MagnumDI = require('../dist/MagnumDI').MagnumDI
 
 
 var Inj1 = new MagnumDI();

@@ -5,7 +5,7 @@ import {getFunctionParams} from "./getFunctionParams"
 
 const debug = Debug('magnum-di')
 
-class MagnumDI{
+export class MagnumDI {
   private dependencies
   readonly parent
 
@@ -215,4 +215,4 @@ class MagnumDI{
   };
 }
 
-export = MagnumDI
+// export = MagnumDI

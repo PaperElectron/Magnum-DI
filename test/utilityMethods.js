@@ -8,7 +8,7 @@
 'use strict';
 const tap = require('tap');
 const _fp = require('lodash/fp')
-const MagnumDI = require('../dist/MagnumDI')
+const MagnumDI = require('../dist/MagnumDI').MagnumDI
 const injector = new MagnumDI()
 
 injector.service('Bob', {name: 'Bob'})
