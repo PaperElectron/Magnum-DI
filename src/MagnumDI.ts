@@ -9,7 +9,7 @@ class MagnumDI{
   private dependencies
   readonly parent
 
-  constructor(parent: MagnumDI){
+  constructor(parent?: MagnumDI){
     this.dependencies = dependencies()
     this.parent = parent || null
     this.service('Injector', this)
