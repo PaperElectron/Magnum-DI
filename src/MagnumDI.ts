@@ -25,6 +25,26 @@ export class MagnumDI {
   }
 
   /**
+   * Returns the parent injector, or null if it has no parent.
+   *
+   * @param getTopLevel walks up the tree and returns the first injector where parent === null ie. the first ancestor.
+   */
+  getParent(getTopLevel = false): MagnumDI {
+    if(getTopLevel){
+      let parent = this.getParent()
+      while(parent){
+        let up = parent.getParent()
+        if(up === null){
+          return parent
+        }
+        parent = up
+      }
+    }
+
+    return this.parent
+  }
+
+  /**
    * Returns all keys registered for this injector.
    * @return {array}
    */
