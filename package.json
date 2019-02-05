@@ -1,6 +1,6 @@
 {
   "name": "magnum-di",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "A super simple Key,Value Dependency Injection framework for NodeJS",
   "main": "./dist/MagnumDI.js",
   "types": "./dist/MagnumDI.d.ts",
