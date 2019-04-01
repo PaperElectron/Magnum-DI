@@ -1,6 +1,6 @@
 # Magnum DI
 
-## A super simple Key,Value Dependency Injection framework for NodeJS
+## A super simple Scoped Dependency Injection framework for NodeJS
 
 [![NPM Version - Seeing this? Shields.io is broken, again.][npm-image]][npm-url]
 [![Linux][travis-image]][travis-url]
@@ -129,7 +129,7 @@ describe('Model being tested with a mock Database object', function() {
 <a name="MagnumDI"></a>
 
 ## MagnumDI
-**Kind**: global class  
+**Kind**: global class
 
 * [MagnumDI](#MagnumDI)
     * [new MagnumDI()](#new_MagnumDI_new)
@@ -155,14 +155,14 @@ Creates a Child instance of the current injector.
 Calls to .get or .inject will first search this injector, if a parameter is found it will return it
 if not it will continue up the tree until a value is found or the topmost instance is reached.
 
-**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)
 <a name="MagnumDI+service"></a>
 
 ### magnumDI.service(name, item) ⇒ <code>\*</code>
 Registers an object, string, number or function.
 
-**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
-**Returns**: <code>\*</code> - Returns provided dependency  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)
+**Returns**: <code>\*</code> - Returns provided dependency
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -174,8 +174,8 @@ Registers an object, string, number or function.
 ### magnumDI.instance(name, fn) ⇒ <code>function</code>
 When injected, calls as a constructor with new.
 
-**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
-**Returns**: <code>function</code> - Returns provided function  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)
+**Returns**: <code>function</code> - Returns provided function
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -187,8 +187,8 @@ When injected, calls as a constructor with new.
 ### magnumDI.factory(name, fn) ⇒ <code>function</code>
 When injected, calls the passed function. Returns the result of that call.
 
-**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
-**Returns**: <code>function</code> - Retuens provided function.  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)
+**Returns**: <code>function</code> - Retuens provided function.
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -200,8 +200,8 @@ When injected, calls the passed function. Returns the result of that call.
 ### magnumDI.merge(name, merge) ⇒ <code>\*</code>
 Merges supplied object into the object registered for <name>, if <name> doesn't exist it will be created.
 
-**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
-**Returns**: <code>\*</code> - Returns provided dependency  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)
+**Returns**: <code>\*</code> - Returns provided dependency
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -213,8 +213,8 @@ Merges supplied object into the object registered for <name>, if <name> doesn't 
 ### magnumDI.get(name) ⇒ <code>\*</code> \| <code>null</code>
 Returns the specified dependency.
 
-**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
-**Returns**: <code>\*</code> \| <code>null</code> - The named dependency item, or null.  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)
+**Returns**: <code>\*</code> \| <code>null</code> - The named dependency item, or null.
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -225,8 +225,8 @@ Returns the specified dependency.
 ### magnumDI.replace(name, replacement) ⇒ <code>Object</code>
 Modifies a registered service object.
 
-**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
-**Returns**: <code>Object</code> - Replaced dependency  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)
+**Returns**: <code>Object</code> - Replaced dependency
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -238,8 +238,8 @@ Modifies a registered service object.
 ### magnumDI.unregister(name) ⇒ <code>boolean</code>
 Removes the specified dependency.
 
-**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
-**Returns**: <code>boolean</code> - The result of the operation.  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)
+**Returns**: <code>boolean</code> - The result of the operation.
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -250,8 +250,8 @@ Removes the specified dependency.
 ### magnumDI.inject(fnOrstr, thisArg) ⇒ <code>\*</code>
 Runs the given function with args injected and with an optional context object.
 
-**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)  
-**Returns**: <code>\*</code> - Returns the result of the called function.  
+**Kind**: instance method of [<code>MagnumDI</code>](#MagnumDI)
+**Returns**: <code>\*</code> - Returns the result of the called function.
 
 | Param | Type | Description |
 | --- | --- | --- |

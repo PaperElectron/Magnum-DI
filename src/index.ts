@@ -5,9 +5,5 @@
  * @license MIT {@link http://opensource.org/licenses/MIT}
  */
 
-/**
- * Application entry
- * @module index
- */
 
-module.exports = require('./lib/MagnumDI');
+export {MagnumDI} from "./module/MagnumDI"
