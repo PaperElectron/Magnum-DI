@@ -4,7 +4,7 @@
  * @project magnum-di
  * @license MIT {@link http://opensource.org/licenses/MIT}
  */
-import {getFunctionParams} from "../src/getFunctionParams";
+import {getFunctionParams} from "../src/module/getFunctionParams";
 
 describe('Returns arguments for most functions it receives', function () {
 

@@ -6,14 +6,6 @@ import {getFunctionParams} from "./getFunctionParams"
 
 const debug = Debug('magnum-di')
 
-interface ClassLike {
-  new (): InstanceLike
-}
-
-interface InstanceLike {
-
-}
-
 export class MagnumDI {
   private name: string
   private dependencies
@@ -110,11 +102,11 @@ export class MagnumDI {
 
   service<T>(name: string, item: T) {
     if(!_.isString(name)){
-      throw new TypeError("First parameter of DI.service() Must be a string.")
+      throw new TypeError("First parameter of MagnumDI.service() Must be a string.")
     }
     this.validateName(name);
     if(!item){
-      throw new TypeError(`${name}: Missing second parameter of DI.service()`)
+      throw new TypeError(`${name}: Missing second parameter of MagnumDI.service()`)
     }
 
     /**
@@ -140,11 +132,11 @@ export class MagnumDI {
 
   instance<T>(name: string, fn: { new(): T }) {
     if(!_.isString(name)){
-      throw new TypeError("First parameter of DI.instance() must be a string.")
+      throw new TypeError("First parameter of MagnumDI.instance() must be a string.")
     }
     this.validateName(name);
     if(!_.isFunction(fn)){
-      throw new TypeError(`${name}: Second parameter of DI.instance() must be a class.`)
+      throw new TypeError(`${name}: Second parameter of MagnumDI.instance() must be a class.`)
     }
 
     return this.dependencies.set(name, function(){
@@ -161,11 +153,11 @@ export class MagnumDI {
   factory(name: string, fn: Function) {
     var self = this;
     if(!_.isString(name)){
-      throw new TypeError("First parameter of DI.factory() Must be a string.")
+      throw new TypeError("First parameter of MagnumDI.factory() Must be a string.")
     }
     this.validateName(name);
     if(!_.isFunction(fn)){
-      throw new TypeError(`${name}: Second parameter of DI.factory() Must be a function.`)
+      throw new TypeError(`${name}: Second parameter of MagnumDI.factory() Must be a function.`)
     }
 
     return this.dependencies.set(name, function(){
@@ -180,16 +172,24 @@ export class MagnumDI {
    * @returns {*} Returns provided dependency
    */
   merge(name, merge){
-    var toModify = this.dependencies.get(name);
+    if(!_.isString(name)){
+      throw new TypeError("First parameter of MagnumDI.merge() must be a string.")
+    }
+    if(!merge){
+      throw new TypeError(`${name}: Missing second parameter of MagnumDI.merge()`)
+    }
+    if(_.isFunction(merge)){
+      throw new TypeError(`${name}: Merge value for MagnumDI.merge() cannot be a function.`);
+    }
+
+    let toModify = this.dependencies.get(name);
     if(!toModify){
       return this.service(name, merge)
     }
     if(_.isFunction(toModify)){
-      throw new Error(`${name}: Magnum DI cannot merge an injectable function`)
+      throw new Error(`${name}: MagnumDI.merge cannot merge an injectable function.`)
     }
-    if(_.isFunction(merge)){
-      throw new TypeError(`${name}: Merge value for injector.merge cannot be a function`);
-    }
+
 
     return _.merge(toModify, merge)
   };
@@ -201,7 +201,7 @@ export class MagnumDI {
    */
   get(name: string) {
 
-    var dependency = this.dependencies.get(name)
+    let dependency = this.dependencies.get(name)
     if(_.isFunction(dependency)){
       return dependency()
     }
@@ -223,12 +223,13 @@ export class MagnumDI {
    * @returns {Object} Replaced dependency
    */
   replace(name: string, replacement) {
-    var toModify = this.dependencies.get(name);
+
+    let toModify = this.dependencies.get(name);
     if(_.isFunction(toModify)){
-      throw new Error(`${name}: Magnum DI cannot replace an injectable function`)
+      throw new Error(`${name}: MagnumDI.replace() cannot replace an injectable function`)
     }
     if(_.isFunction(replacement)){
-      throw new TypeError(`${name}: Replacement value for injector.replace cannot be a function`);
+      throw new TypeError(`${name}: Replacement value for MagnumDI.replace() cannot be a function`);
     }
     return this.dependencies.set(name,replacement)
   };

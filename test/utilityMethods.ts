@@ -6,7 +6,7 @@
  */
 
 import {difference} from 'lodash/fp'
-import {MagnumDI} from "../src/MagnumDI"
+import {MagnumDI} from "../src/"
 
 const injector = new MagnumDI()
 

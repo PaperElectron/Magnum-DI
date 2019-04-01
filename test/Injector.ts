@@ -5,7 +5,7 @@
  * @license MIT {@link http://opensource.org/licenses/MIT}
  */
 
-import {MagnumDI} from "../src/MagnumDI"
+import {MagnumDI} from "../src/"
 
 describe('Injecting Dependencies', () => {
   let injector = new MagnumDI()

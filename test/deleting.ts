@@ -4,7 +4,7 @@
  * @project magnum-di
  * @license MIT {@link http://opensource.org/licenses/MIT}
  */
-import {MagnumDI} from "../src/MagnumDI"
+import {MagnumDI} from "../src/"
 
 describe('Deleting dependencies', () => {
   const injector = new MagnumDI()

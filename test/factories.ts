@@ -5,7 +5,7 @@
  * @license MIT {@link http://opensource.org/licenses/MIT}
  */
 
-import {MagnumDI} from "../src/MagnumDI"
+import {MagnumDI} from "../src/"
 
 describe('Magnum DI factories', () => {
   const injector = new MagnumDI()
@@ -17,28 +17,28 @@ describe('Magnum DI factories', () => {
     expect(() => {
       //@ts-ignore
       injector.factory()
-    }).toThrowError(new Error('First parameter of DI.factory() Must be a string.'))
+    }).toThrowError(new Error('First parameter of MagnumDI.factory() Must be a string.'))
   })
 
   test('Throws with no name', () => {
     expect(() => {
       //@ts-ignore
       injector.factory({})
-    }).toThrowError(new Error('First parameter of DI.factory() Must be a string.'))
+    }).toThrowError(new Error('First parameter of MagnumDI.factory() Must be a string.'))
   })
 
   test('Throws with no dependency', () => {
     expect(() => {
       //@ts-ignore
       injector.factory('Test')
-    }).toThrowError(new Error('Test: Second parameter of DI.factory() Must be a function.'))
+    }).toThrowError(new Error('Test: Second parameter of MagnumDI.factory() Must be a function.'))
   })
 
   test('Throws with incorrect dep type', () => {
     expect(() => {
       //@ts-ignore
       injector.factory('Test', {})
-    }).toThrowError(new Error('Test: Second parameter of DI.factory() Must be a function.'))
+    }).toThrowError(new Error('Test: Second parameter of MagnumDI.factory() Must be a function.'))
   })
 
   test('Factories return new objects every time they are requested from the injector', () => {
