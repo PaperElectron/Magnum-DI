@@ -1,9 +1,8 @@
 {
   "name": "magnum-di",
   "version": "4.2.0",
-  "description": "A super simple Key,Value Dependency Injection framework for NodeJS",
-  "main": "./dist/MagnumDI.js",
-  "types": "./dist/MagnumDI.d.ts",
+  "description": "A super simple Scoped Dependency Injection framework for NodeJS",
+  "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
     "build:docs": "jsdoc2md -t docs/readme.hbs lib/**/*.js > Readme.md",
@@ -11,7 +10,9 @@
     "example-server": "node examples/ExpressRoutes/app.js"
   },
   "files": [
-    "dist/",
+    "index.d.ts",
+    "index.js.map",
+    "module/**/*",
     "Readme.md",
     "LICENCE"
   ],
@@ -22,7 +23,7 @@
   "keywords": [
     "Dependency Injection",
     "Framework",
-    "di"
+    "DI/IOC"
   ],
   "author": "Jim <monstertke@paperelectron.com> (http://paperelectron.com/)",
   "license": "MIT",
