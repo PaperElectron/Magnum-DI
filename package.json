@@ -4,6 +4,7 @@
   "description": "A super simple Scoped Dependency Injection framework for NodeJS",
   "main": "index.js",
   "scripts": {
+    "prepublishOnly": "tsc",
     "test": "NODE_ENV=test jest",
     "build:docs": "jsdoc2md -t docs/readme.hbs lib/**/*.js > Readme.md",
     "example-test": "NODE_ENV=test mocha --ui tdd --reporter spec examples/UserModel_testing/UserModel_test.js",
