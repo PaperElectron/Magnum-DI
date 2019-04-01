@@ -4,7 +4,7 @@ import get = Reflect.get;
 
 const argObjArray = _fp.get('body[0].declarations[0].init.params')
 
-const toStringArray = _fp.map((item) => {
+const toStringArray = _fp.map((item: {name: string}) => {
   return item.name
 })
 

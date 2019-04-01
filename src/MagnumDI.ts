@@ -1,17 +1,30 @@
 import * as _ from 'lodash'
+import {keys, reduce, toPairs, each} from 'lodash/fp'
 import * as Debug from 'debug'
 import dependencies from "./Dependencies"
 import {getFunctionParams} from "./getFunctionParams"
 
 const debug = Debug('magnum-di')
 
-export class MagnumDI {
-  private dependencies
-  readonly parent
+interface ClassLike {
+  new (): InstanceLike
+}
 
-  constructor(parent?: MagnumDI){
+interface InstanceLike {
+
+}
+
+export class MagnumDI {
+  private name: string
+  private dependencies
+  private children: {[key: string]: MagnumDI}
+  readonly parent: MagnumDI
+
+  constructor({name = 'global', parent = null}: {name?: string, parent?: MagnumDI} = {}){
+    this.name = name
     this.dependencies = dependencies()
     this.parent = parent || null
+    this.children = {}
     this.service('Injector', this)
   }
   /**
@@ -20,29 +33,66 @@ export class MagnumDI {
    * if not it will continue up the tree until a value is found or the topmost instance is reached.
    * @return {MagnumDI}
    */
-  createChild() : MagnumDI {
-    return new MagnumDI(this)
+  createChild(name: string) : MagnumDI {
+    if(!name){
+      throw new Error('Child injectors must be named.')
+    }
+    this.children[name] = new MagnumDI({name: name, parent: this})
+    return this.children[name]
   }
 
   /**
    * Returns the parent injector, or null if it has no parent.
    *
-   * @param getTopLevel walks up the tree and returns the first injector where parent === null ie. the first ancestor.
+   * @param parentName walks up the tree and returns the first injector where parentName === parent.name  defaults to global
    */
-  getParent(getTopLevel = false): MagnumDI {
-    if(getTopLevel){
-      let parent = this.getParent()
-      while(parent){
-        let up = parent.getParent()
-        if(up === null){
-          return parent
-        }
-        parent = up
+  getParent(parentName = 'global'): MagnumDI {
+
+    let parent = this.parent
+
+    while(parent){
+      if(parentName === parent.name){
+              return parent
       }
+      parent = parent.parent
     }
 
-    return this.parent
+    throw new Error(`Parent injector "${parentName}" not found.`)
+
   }
+
+  getChild(childName: string){
+    if(!childName){
+      throw new Error('No childName argument provided.')
+    }
+
+    let found = false
+    let child = null
+
+    if(!keys(this.children).length){
+      return child
+    }
+
+    let queue = [this.children]
+
+    while(!found && queue.length){
+      let i = queue.shift()
+
+      each(([key, value]) => {
+        if(key === childName){
+          found = true
+          child = value
+          return
+        }
+        queue.push(value.children)
+        // value //?
+      }, toPairs(i))
+
+    }
+
+    return child
+  }
+
 
   /**
    * Returns all keys registered for this injector.
@@ -64,7 +114,7 @@ export class MagnumDI {
     }
     this.validateName(name);
     if(!item){
-      throw new TypeError(name + ": Missing second parameter of DI.service()")
+      throw new TypeError(`${name}: Missing second parameter of DI.service()`)
     }
 
     /**
@@ -87,13 +137,14 @@ export class MagnumDI {
    * @param {function} fn Function to be called with new.
    * @returns {function} Returns provided function
    */
-  instance(name: string, fn: FunctionConstructor) {
+
+  instance<T>(name: string, fn: { new(): T }) {
     if(!_.isString(name)){
-      throw new TypeError("First parameter of DI.instance() Must be a string.")
+      throw new TypeError("First parameter of DI.instance() must be a string.")
     }
     this.validateName(name);
     if(!_.isFunction(fn)){
-      throw new TypeError(name + ": Second parameter of DI.instance() Must be a function.")
+      throw new TypeError(`${name}: Second parameter of DI.instance() must be a class.`)
     }
 
     return this.dependencies.set(name, function(){
@@ -114,7 +165,7 @@ export class MagnumDI {
     }
     this.validateName(name);
     if(!_.isFunction(fn)){
-      throw new TypeError(name + ":Second parameter of DI.factory() Must be a function.")
+      throw new TypeError(`${name}: Second parameter of DI.factory() Must be a function.`)
     }
 
     return this.dependencies.set(name, function(){
@@ -134,10 +185,10 @@ export class MagnumDI {
       return this.service(name, merge)
     }
     if(_.isFunction(toModify)){
-      throw new Error(name + ': Magnum DI cannot merge an injectable function')
+      throw new Error(`${name}: Magnum DI cannot merge an injectable function`)
     }
     if(_.isFunction(merge)){
-      throw new TypeError(name + ': Merge value for injector.merge cannot be a function');
+      throw new TypeError(`${name}: Merge value for injector.merge cannot be a function`);
     }
 
     return _.merge(toModify, merge)
@@ -174,10 +225,10 @@ export class MagnumDI {
   replace(name: string, replacement) {
     var toModify = this.dependencies.get(name);
     if(_.isFunction(toModify)){
-      throw new Error(name + ': Magnum DI cannot replace an injectable function')
+      throw new Error(`${name}: Magnum DI cannot replace an injectable function`)
     }
     if(_.isFunction(replacement)){
-      throw new TypeError(name + ': Replacement value for injector.replace cannot be a function');
+      throw new TypeError(`${name}: Replacement value for injector.replace cannot be a function`);
     }
     return this.dependencies.set(name,replacement)
   };
@@ -227,10 +278,10 @@ export class MagnumDI {
   validateName(name) {
     let noSpacesOrDashes = /\s+|-+/g
     if(noSpacesOrDashes.test(name)){
-      throw new TypeError(name +': Dependency name must be a valid javascript variable, no spaces, tabs, or dashes.')
+      throw new TypeError(`${name}: Dependency name must be a valid javascript variable, no spaces, tabs, or dashes.`)
     }
     if(this.dependencies.get(name)){
-      throw new TypeError('Dependency "' + name + '" is already registered.')
+      throw new TypeError(`Dependency "${name}" is already registered.`)
     }
   };
 }
