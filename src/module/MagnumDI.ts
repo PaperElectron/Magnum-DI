@@ -19,6 +19,46 @@ export class MagnumDI {
     this.children = {}
     this.service('Injector', this)
   }
+
+  createChain(chain: string[]){
+    // if(this.name !== 'global'){
+    //   throw new Error('MagnumDi.createChain can only be called on the global injector.')
+    // }
+    let current: MagnumDI = this
+
+    while(chain.length){
+      let search = chain.shift()
+      let child = current.getChild(search)
+      // if(chain.length === 0 && child){
+      //   console.log('This shoud throw')
+      // }
+      if(!child) {
+        current = current.createChild(search)
+      } else {
+        current = child
+      }
+    }
+    return current
+
+  }
+  findChain(chain: string[]){
+    // if(this.name !== 'global'){
+    //   throw new Error('MagnumDi.findChain can only be called on the global injector.')
+    // }
+    let current: MagnumDI = this
+
+    while(chain.length && current !== null){
+      let search = chain.shift()
+      let child = current.getChild(search)
+      if(!child) {
+        current = null
+      } else {
+        current = child
+      }
+    }
+    return current
+
+  }
   /**
    * Creates a Child instance of the current injector.
    * Calls to .get or .inject will first search this injector, if a parameter is found it will return it
