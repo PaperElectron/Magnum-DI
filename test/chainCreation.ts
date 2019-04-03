@@ -11,12 +11,14 @@ describe('Injector Chain creation', () => {
 
   test('Creating complex chains', () => {
     const injector = new MagnumDI()
-    let deepAABA = injector.createChain(['A', 'A', 'B', 'A'])
+    let chainAABA = ['A', 'A', 'B', 'A']
+    let deepAABA = injector.createChain(chainAABA)
     let deepAABB = injector.createChain(['A', 'A', 'B', 'B'])
     let deepAABC = injector.createChain(['A', 'A', 'B', 'C'])
     let deepABCA = injector.createChain(['A', 'B', 'C', 'A'])
     let deepABCB = injector.createChain(['A', 'B', 'C', 'B'])
     let deepABCC = injector.createChain(['A', 'B', 'C', 'C'])
+    expect(chainAABA).toEqual(['A', 'A', 'B', 'A'])
     expect(deepAABA).toEqual(expect.objectContaining({name: 'A'}))
     expect(deepAABA.parent).toEqual(expect.objectContaining({name: 'B'}))
 
@@ -35,7 +37,9 @@ describe('Injector Chain creation', () => {
     expect(deepABCC).toEqual(expect.objectContaining({name: 'C'}))
     expect(deepABCC.parent).toEqual(expect.objectContaining({name: 'C'}))
 
-    let foundABC = injector.findChain(['A', 'B', 'C'])
+    let searchChain = ['A', 'B', 'C']
+    let foundABC = injector.findChain(searchChain)
+    expect(searchChain).toEqual(['A', 'B', 'C'])
     expect(foundABC).toEqual(expect.objectContaining({name: 'C'}))
 
     let notFound = injector.findChain(['A', 'D'])

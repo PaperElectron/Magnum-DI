@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import {keys, reduce, toPairs, each} from 'lodash/fp'
+import {keys, clone, toPairs, each} from 'lodash/fp'
 import * as Debug from 'debug'
 import dependencies from "./Dependencies"
 import {getFunctionParams} from "./getFunctionParams"
@@ -21,13 +21,14 @@ export class MagnumDI {
   }
 
   createChain(chain: string[]){
+    let clonedChain = clone(chain)
     // if(this.name !== 'global'){
     //   throw new Error('MagnumDi.createChain can only be called on the global injector.')
     // }
     let current: MagnumDI = this
 
-    while(chain.length){
-      let search = chain.shift()
+    while(clonedChain.length){
+      let search = clonedChain.shift()
       let child = current.getChild(search)
       // if(chain.length === 0 && child){
       //   console.log('This shoud throw')
@@ -42,13 +43,14 @@ export class MagnumDI {
 
   }
   findChain(chain: string[]){
+    let clonedChain = clone(chain)
     // if(this.name !== 'global'){
     //   throw new Error('MagnumDi.findChain can only be called on the global injector.')
     // }
     let current: MagnumDI = this
 
-    while(chain.length && current !== null){
-      let search = chain.shift()
+    while(clonedChain.length && current !== null){
+      let search = clonedChain.shift()
       let child = current.getChild(search)
       if(!child) {
         current = null
