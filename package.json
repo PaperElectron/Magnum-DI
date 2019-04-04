@@ -1,6 +1,6 @@
 {
   "name": "magnum-di",
-  "version": "5.1.1",
+  "version": "6.0.0",
   "description": "A super simple Scoped Dependency Injection framework for NodeJS",
   "main": "index.js",
   "scripts": {
