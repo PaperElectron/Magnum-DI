@@ -9,7 +9,7 @@ import {MagnumDI} from "../src/"
 
 describe('Injecting Dependencies', () => {
   let injector = new MagnumDI()
-  injector.service('Service', {name: 'Service'});
+  injector.anything('Anything', {name: 'Anything'});
 
   injector.factory('Factory', function () {
     return {name: 'Factory'}
@@ -30,8 +30,8 @@ describe('Injecting Dependencies', () => {
 
 
   test('Function dependency Injecting', () => {
-    injector.inject((Merge, Factory, Service, Instance) => {
-      expect(Service.name).toEqual('Service')
+    injector.inject((Merge, Factory, Anything, Instance) => {
+      expect(Anything.name).toEqual('Anything')
       expect(Factory.name).toEqual('Factory')
       expect(Instance.name).toEqual('InstanceLike')
       expect(Merge.name).toEqual('Merge')
@@ -58,7 +58,7 @@ describe('Injecting Dependencies', () => {
   })
 
   test('Calling .inject with a string argument will return the stored item', () => {
-    expect(injector.inject('Service').name).toEqual('Service')
+    expect(injector.inject('Anything').name).toEqual('Anything')
   })
 
   test('Calling .inject with a string argument not registered will return null', () => {

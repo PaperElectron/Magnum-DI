@@ -27,7 +27,7 @@ describe('Merge Injectables', () => {
   })
 
   test('Merging existing injectables not created with merge', () => {
-    injector.service('MergeService', {name: 'MergeService'})
+    injector.anything('MergeService', {name: 'MergeService'})
     injector.merge('MergeService', {location: 'Atlanta'})
     expect(injector.inject('MergeService')).toEqual(expect.objectContaining({name: 'MergeService', location: 'Atlanta'}))
   })

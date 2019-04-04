@@ -50,7 +50,7 @@ describe('Magnum DI factories', () => {
   })
 
   test('Parameterized factories.', () => {
-    injector.service('ForFactory', {factoryArg: 'hello'})
+    injector.anything('ForFactory', {factoryArg: 'hello'})
     injector.factory('Parameterized', function (ForFactory) {
       return ForFactory
     })

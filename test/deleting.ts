@@ -10,8 +10,8 @@ describe('Deleting dependencies', () => {
   const injector = new MagnumDI()
 
   test('Unregistering', () => {
-    injector.service('A', {a: 'A'});
-    injector.service('B', {b: 'B'});
+    injector.anything('A', {a: 'A'});
+    injector.anything('B', {b: 'B'});
     expect(injector.get('A')).toEqual(expect.objectContaining({a: 'A'}))
     expect(injector.get('B')).toEqual(expect.objectContaining({b: 'B'}))
 
@@ -24,8 +24,8 @@ describe('Deleting dependencies', () => {
   })
 
   test('Reregistering', () => {
-    injector.service('A', {a: 'New A'});
-    injector.service('B', {b: 'New B'});
+    injector.anything('A', {a: 'New A'});
+    injector.anything('B', {b: 'New B'});
     expect(injector.get('A')).toEqual(expect.objectContaining({a: 'New A'}))
     expect(injector.get('B')).toEqual(expect.objectContaining({b: 'New B'}))
 

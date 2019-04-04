@@ -9,15 +9,15 @@ describe('Creating Child Injectors', () => {
   const injector = new MagnumDI()
 
   test('Overrideable parent', () => {
-    injector.service('bob', {name: 'Bob'})
-    injector.service('Config', {name: 'Parent'})
+    injector.anything('bob', {name: 'Bob'})
+    injector.anything('Config', {name: 'Parent'})
     let bob = injector.inject('bob')
     expect(bob).toEqual(expect.objectContaining({name: 'Bob'}))
   })
 
   test('Children can overide parents', () => {
     let child = injector.createChild('child')
-    child.service('bob', {name: 'Bob Jr.'})
+    child.anything('bob', {name: 'Bob Jr.'})
     let bob = child.inject('bob')
     expect(bob).toEqual(expect.objectContaining({name: 'Bob Jr.'}))
   })
@@ -25,7 +25,7 @@ describe('Creating Child Injectors', () => {
   test('Grandchildren can overide parents', () => {
     let child = injector.getChild('child')
     let grandchild = child.createChild('grandchild')
-    grandchild.service('bob', {name: 'Bob III'})
+    grandchild.anything('bob', {name: 'Bob III'})
     let bob = grandchild.inject('bob')
     expect(bob).toEqual(expect.objectContaining({name: 'Bob III'}))
   })

@@ -17,7 +17,7 @@ export class MagnumDI {
     this.dependencies = dependencies()
     this.parent = parent || null
     this.children = {}
-    this.service('Injector', this)
+    this.anything('Injector', this)
   }
 
   createChain(chain: string[]){
@@ -142,17 +142,17 @@ export class MagnumDI {
    * @returns {*} Returns provided dependency
    */
 
-  service<T>(name: string, item: T) {
+  anything<T>(name: string, item: T) {
     if(!_.isString(name)){
-      throw new TypeError("First parameter of MagnumDI.service() Must be a string.")
+      throw new TypeError("First parameter of MagnumDI.anything() Must be a string.")
     }
     this.validateName(name);
     if(!item){
-      throw new TypeError(`${name}: Missing second parameter of MagnumDI.service()`)
+      throw new TypeError(`${name}: Missing second parameter of MagnumDI.anything()`)
     }
 
     /**
-     * Wrap a service function in an outer function.
+     * Wrap a anything function in an outer function.
      * This allows the original function to be returned when requested.
      * If this was not wrapped, it would simply execute the function and return
      * whatever it returned.
@@ -226,7 +226,7 @@ export class MagnumDI {
 
     let toModify = this.dependencies.get(name);
     if(!toModify){
-      return this.service(name, merge)
+      return this.anything(name, merge)
     }
     if(_.isFunction(toModify)){
       throw new Error(`${name}: MagnumDI.merge cannot merge an injectable function.`)
@@ -259,7 +259,7 @@ export class MagnumDI {
   };
 
   /**
-   * Modifies a registered service object.
+   * Modifies a registered anything object.
    * @param {String} name Dependency object to modify.
    * @param {Object} replacement Object to replace current registered object.
    * @returns {Object} Replaced dependency

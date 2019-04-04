@@ -10,8 +10,8 @@ import {MagnumDI} from "../src/"
 
 const injector = new MagnumDI()
 
-injector.service('Bob', {name: 'Bob'})
-injector.service('Service', {name: 'Service'})
+injector.anything('Bob', {name: 'Bob'})
+injector.anything('Service', {name: 'Service'})
 injector.factory('Factory', ()=>{})
 
 describe('Returns an array of keynames', function () {

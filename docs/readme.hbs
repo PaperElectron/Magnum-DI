@@ -14,7 +14,7 @@ npm install --save magnum-di
 var injector = require('magnum-di')()
 
 //Register some dependencies.
-injector.service('MyService', {name: 'Bob', sayName: function(){console.log(this.name)}})
+injector.anything('MyService', {name: 'Bob', sayName: function(){console.log(this.name)}})
 
 //inject them into your function
 injector.inject(function(MyService){
@@ -65,12 +65,12 @@ var http = require('http');
 
 //Register some dependencies.
 injector.factory('Router', express.Router);
-injector.service('Database', Database);
+injector.anything('Database', Database);
 
 //Here we are letting the injector provide the database to our UserModel
 //This will make it simple to mock in our unit tests.
 var User = injector.inject(require('./UserModel'));
-injector.service('User', User);
+injector.anything('User', User);
 
 var userRoute = injector.inject(require('./UserRoutes'));
 
@@ -91,7 +91,7 @@ var injector = require('magnum-di');
 var should = require('should');
 
 //Our mock database object
-injector.service('Database', {
+injector.anything('Database', {
   User: {
     users: {George: {name: 'George', age: 30}, Mike: {name: 'Mike', age: 20}},
     find: function(username, cb) {

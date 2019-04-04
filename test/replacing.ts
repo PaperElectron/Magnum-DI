@@ -10,15 +10,15 @@ import {MagnumDI} from "../src/"
 describe('Replacing injectable values', () => {
   const injector = new MagnumDI()
 
-  test('Modifying a service', () => {
-    injector.service('modify', {name: 'modify'})
+  test('Modifying a anything', () => {
+    injector.anything('modify', {name: 'modify'})
     expect(injector.inject('modify')).toEqual(expect.objectContaining({name: 'modify'}))
     injector.replace('modify', {name: 'modified', other: 'defined'})
     expect(injector.inject('modify')).toEqual(expect.objectContaining({name: 'modified', other: 'defined'}))
   })
 
-  test('Cannot replace service objects with a function.', () => {
-    injector.service('improper', {name: 'improper'});
+  test('Cannot replace anything objects with a function.', () => {
+    injector.anything('improper', {name: 'improper'});
     expect(() => {
       //@ts-ignore
       injector.replace('improper', () => {
@@ -47,7 +47,7 @@ describe('Replacing injectable values', () => {
   test('Injecting functions before and after modification', () => {
     let before = {name: 'before'}
     let after = {name: 'after'}
-    injector.service('Before', before)
+    injector.anything('Before', before)
     injector.inject((Before) => {
       expect(Before).toEqual(expect.objectContaining(before))
     })
@@ -63,7 +63,7 @@ describe('Replacing injectable values', () => {
 // tap.test('Injecting functions before and after modification', function(t) {
 //   t.plan(3)
 //   var obj = {name: 'before'};
-//   injector.service('Before', obj);
+//   injector.anything('Before', obj);
 //   var injectFn = function(Before) {
 //     return Before
 //   };
